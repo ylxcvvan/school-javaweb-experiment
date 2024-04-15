@@ -7,6 +7,7 @@
 --%>
 <%@ page import="cdu.wycy.model.Book" %>
 <%@ page import="java.util.List" %>
+<%@ page import="cdu.wycy.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -62,16 +63,35 @@
     </style>
 </head>
 <body>
+
+
 <div class="container">
     <div class="row">
         <div class="col">
             <h1><a href="book/list" class="text-decoration-none text-dark">购书网站</a></h1>
         </div>
         <div class="col-auto">
-            <a href="../admin/book/list" class="btn btn-primary me-2">后台管理</a>
+            <a href="../admin/login.jsp" class="btn btn-primary me-2">后台管理入口</a>
             <a href="book/list" class="btn btn-primary me-2">首页</a>
-            <a href="#" class="btn btn-primary me-2">登录</a>
-            <a href="#" class="btn btn-primary">注册</a>
+        </div>
+        <div class="col-auto">
+            <%
+                User customer = (User) session.getAttribute("customer");
+                if (customer == null) {
+            %>
+            <%-- 顾客未登录 --%>
+            <a href="login.jsp" class="btn btn-primary">登录</a>
+            <a href="register.jsp" class="btn btn-primary">新顾客注册</a>
+            <%
+            } else {
+            %>
+            <%-- 顾客已登录 --%>
+            <span>你好，<%=customer.getName() %></span>
+            <a href="reset?id=<%=customer.getId() %>" class="btn btn-primary">重置密码</a>
+            <a href="logout" class="btn btn-primary">退出</a>
+            <%
+                }
+            %>
         </div>
     </div>
     <hr>
