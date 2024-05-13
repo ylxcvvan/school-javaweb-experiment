@@ -12,14 +12,12 @@ public class BookServiceImpl implements BookService {
 
     }
     @Override
-    public List
-            <Book> getAll() {
+    public List<Book> getAll() {
         return bookDao.query(null);
 
     }
     @Override
-    public List
-            <Book> get(Book condition, int page, int pageSize) {
+    public List<Book> get(Book condition, int page, int pageSize) {
         return bookDao.query(condition, (page - 1) * pageSize, pageSize);
 
     }

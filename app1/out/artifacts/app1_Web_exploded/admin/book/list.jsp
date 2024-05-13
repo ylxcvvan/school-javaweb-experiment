@@ -1,5 +1,6 @@
 <%@ page import="cdu.wycy.model.Book" %>
 <%@ page import="java.util.List" %>
+<%@ page import="cdu.wycy.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -17,37 +18,36 @@
             color: #007bff;
         }
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
         }
         form {
             margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-        th {
-            background-color: #f8f9fa;
-        }
-        img {
-            max-width: 64px;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    
     <h1>购书网站后台管理平台</h1>
     <a href="../customer/book/list" class="btn btn-primary">前台首页</a>
     <a href="book/list" class="btn btn-primary">图书列表</a>
     <a href="book/add.jsp" class="btn btn-primary">添加图书</a>
+    <a href="customer/list" class="btn btn-primary">顾客列表</a>
+    <a href="adminUser/list" class="btn btn-primary">管理员列表</a>
+    <a href="adminUser/add.jsp" class="btn btn-primary">添加管理员</a>
+    <%
+        User admin = (User) session.getAttribute("admin");
+        if (admin == null) {
+            //管理员未登录
+            response.sendRedirect(request.getContextPath() + "/admin/login.jsp");
+        } else {
+    %>
+    <%-- 管理员已登录 --%>
+    <a href="reset?id=<%=admin.getId() %>">重置密码</a>
+    <a href="logout">退出</a>
+    <%
+        }
+    %>
     <hr>
-
     <h2>图书管理列表</h2>
     <form action="book/query" method="post" class="mb-3">
         <div class="row g-3 align-items-center">
@@ -74,8 +74,7 @@
             </div>
         </div>
     </form>
-
-    <table class="table table-striped">
+    <table class="table">
         <thead>
         <tr>
             <th>封面</th>
@@ -95,26 +94,24 @@
         <% List<Book> books = (List<Book>) request.getAttribute("books");
             for (Book book : books) { %>
         <tr>
-            <td><img src="<%=book.getCoverUrl() %>" alt="封面" class="img"></td>
+            <td><img width="64px" src="<%=book.getCoverUrl() %>"></td>
             <td><%=book.getId() %></td>
             <td><%=book.getTitle() %></td>
-            <td style="width: 300px;"><%=book.getAuthor() %></td>
+            <td><%=book.getAuthor() %></td>
             <td><%=book.getPress() %></td>
             <td><%=book.getPrice() %></td>
             <td><%=book.getSale() %></td>
             <td><%=book.getStock() %></td>
-            <td style="width: 110px;"><%=book.getPublishDate() %></td>
-            <td style="width: 110px;"><%=book.getMarketDate() %></td>
-            <td style="width: 120px;">
+            <td><%=book.getPublishDate() %></td>
+            <td><%=book.getMarketDate() %></td>
+            <td>
                 <a href="book/modPre?id=<%=book.getId() %>" class="btn btn-primary">修改</a>
                 <a href="book/del?id=<%=book.getId() %>" class="btn btn-danger">删除</a>
             </td>
-
         </tr>
         <% } %>
         </tbody>
     </table>
-
     <%-- 分页导航--%>
     <% int p = (int) request.getAttribute("p");
         int pCount = (int) request.getAttribute("pCount");

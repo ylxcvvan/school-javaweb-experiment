@@ -9,23 +9,19 @@ import java.util.Locale;
 public class ParseUtil {
     //以下被注释的方法为原来格式化输出日期、时间、货币的方法
     // 此版本中，格式化输出功能已被自定义的EL函数替代，本类只需专注于字符串解析和类型转换
-// public static String formatMoney(BigDecimal money) {
-// return DecimalFormat.getCurrencyInstance(Locale.CHINA).format(money);
-// }
-//
-// public static String formatDateShort(Date date) {
-//
-// return new SimpleDateFormat("yyyy年M月", Locale.CHINA).format(date);
-// }
-//
-// public static String formatDateLong(Date date) {
-//
-// return new SimpleDateFormat("yyyy年M月d日", Locale.CHINA).format(date);
-// }
-//
-// public static String formatDateTime(long date) {
-// return new SimpleDateFormat("yyyy-M-d HH:mm:ss", Locale.CHINA).format(date);
-// }
+
+    public static String formatMoney(BigDecimal money) {
+        return DecimalFormat.getCurrencyInstance(Locale.CHINA).format(money);
+    }
+    public static String formatDateShort(Date date) {
+        return new SimpleDateFormat("yyyy年M月", Locale.CHINA).format(date);
+    }
+    public static String formatDateLong(Date date) {
+        return new SimpleDateFormat("yyyy年M月d日", Locale.CHINA).format(date);
+    }
+    public static String formatDateTime(long date) {
+        return new SimpleDateFormat("yyyy-M-d HH:mm:ss", Locale.CHINA).format(date);
+    }
     public static BigDecimal parseMoney(String money) {
         try {
             return (BigDecimal) DecimalFormat.getCurrencyInstance(Locale.CHINA).parse(money);
